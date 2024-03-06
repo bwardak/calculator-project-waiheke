@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900screendisplay=swap");
 
 $screen-font: "Roboto", sans-serif;
 
@@ -15,12 +15,14 @@ body {
 }
 
 .calculator {
+  width: 100%;
+  margin: 0 20px;
+  border: 2px solid black;
 
   .screen,
   .button {
     font: 700 1.5rem $screen-font;
-    border: 1px solid black;
-    max-height: 30px;
+    height: 50px;
   }
 }
 
@@ -28,9 +30,46 @@ body {
   text-align: center;
 }
 
-.screen {
+.top-screen {
   display: grid;
   grid-template: repeat(5, 1fr) / repeat(5, 1fr);
+  border-bottom: 2px solid black;
+  
+
+  &__theme {
+    grid-area: 1 / 2 / 2 / 5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .screen--equation {
+    grid-area: 2 / 5 / 3 / 6;
+  }
+
+  .screen--answer {
+    grid-area: 3 / 5 / 4 / 6;
+  }
+
+  .screen--eraser {
+    grid-area: 5 / 5 / 6 / 6;
+  }
+}
+
+.bottom-buttons {
+  display: grid;
+  grid-template: repeat(5, 1fr) / repeat(4, 1fr);
+  justify-content: center;
+  align-content: center;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid black;
+  border-top-width: 1px;
+  border-radius: 100%;
 }
 
 
