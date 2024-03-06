@@ -1,0 +1,36 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
+$screen-font: "Roboto", sans-serif;
+
+* {
+  margin: 0;
+  background-color: gray;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.calculator {
+
+  .screen,
+  .button {
+    font: 700 1.5rem $screen-font;
+    border: 1px solid black;
+    max-height: 30px;
+  }
+}
+
+.calculator {
+  text-align: center;
+}
+
+.screen {
+  display: grid;
+  grid-template: repeat(5, 1fr) / repeat(5, 1fr);
+}
+
+
