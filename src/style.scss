@@ -4,7 +4,9 @@ $screen-font: "Roboto", sans-serif;
 
 * {
   margin: 0;
+  padding: 0;
   background-color: gray;
+  box-sizing: border-box;
 }
 
 body {
@@ -15,6 +17,8 @@ body {
 }
 
 .calculator {
+  max-width: 280px;
+  max-height: 566px;
   width: 100%;
   margin: 0 20px;
   border: 2px solid black;
@@ -56,17 +60,10 @@ body {
   }
 }
 
-// .bottom-buttons {
-//   display: grid;
-//   grid-template: repeat(5, 1fr) / repeat(4, 1fr);
-//   row-gap: 10px;
-//   justify-content: center;
-//   align-content: center;
-// }
 
 .calc-row {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   margin: 10px 0;
 }
 
@@ -76,7 +73,6 @@ body {
   border: 2px solid black;
   border-top-width: 1px;
   border-radius: 100%;
-  margin: auto;
 }
 
 
