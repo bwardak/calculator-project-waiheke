@@ -1,7 +1,6 @@
 import "./style.scss";
 
 const sumOfNumsString: unknown[] = []; // String to hold inputted numbers
-const equationOnScreen: string[] = [];
 const storingOperatorType: string[] = [];
 let finalAnswer: number = 0; // Variable to hold final answer
 let currentSum: number = 0;
@@ -10,23 +9,13 @@ let secondNumberAsNumber = 0;
 let numbersWithOperator: unknown [] = [];
 
 // Declaring variables for html elements
-const buttonsNumber =
-  document.querySelectorAll<HTMLButtonElement>(".button--number");
-const buttonsEqual =
-  document.querySelector<HTMLButtonElement>(".button--equals");
+const buttonsNumber = document.querySelectorAll<HTMLButtonElement>(".button--number");
+const buttonsEqual = document.querySelector<HTMLButtonElement>(".button--equals");
 const screenAnswer = document.querySelector<HTMLDivElement>(".screen--answer");
-const buttonAdd = document.querySelector<HTMLButtonElement>(".button--add");
-const buttonSubtract =
-  document.querySelector<HTMLButtonElement>(".button--subtract");
-const buttonMultiply =
-  document.querySelector<HTMLButtonElement>(".button--multiply");
-const buttonDivide =
-  document.querySelector<HTMLButtonElement>(".button--divide");
-const screenEquation =
-  document.querySelector<HTMLDivElement>(".screen--equation");
+const screenEquation = document.querySelector<HTMLDivElement>(".screen--equation");
 const buttonsAll = document.querySelectorAll<HTMLButtonElement>(".button");
-const buttonsOperator =
-  document.querySelectorAll<HTMLButtonElement>(".button--operator");
+const buttonsOperator = document.querySelectorAll<HTMLButtonElement>(".button--operator");
+const buttonClear = document.querySelector<HTMLButtonElement>('.button--clear')
 
 const handleClickedButtonNumberToArray = (event: Event) => {
   // Takes value of clicked button
@@ -42,10 +31,7 @@ const handleClickedButtonToScreenEquation = (event: Event) => {
   // Function to put last pressed button into screen
   const inputtedButton = event.currentTarget as HTMLButtonElement;
   if (screenEquation) {
-    if (
-      screenEquation.innerText === "0" &&
-      screenEquation.innerText.length == 1
-    ) {
+    if (screenEquation.innerText === "0" && screenEquation.innerText.length == 1 ) {
       screenEquation.innerText = ""; // Removes the 0 on screen when typing starts
     }
   }
@@ -97,6 +83,16 @@ const handleStoringOperatorToArray = (event: Event) => {
   console.log(numbersWithOperator);
 };
 
+const handleResetCalculator = () => {
+  if (screenAnswer){
+  screenAnswer.innerText = "";
+  }
+  if (screenEquation){
+  screenEquation.innerText = "0";
+  }
+
+}
+
 // Multiple event listeners
 
 buttonsNumber.forEach((buttonNumber) => {
@@ -107,16 +103,14 @@ buttonsAll.forEach((button) => {
   button.addEventListener("click", handleClickedButtonToScreenEquation);
 });
 
+if (buttonClear) {
+  buttonClear.addEventListener("click", handleResetCalculator);
+}
+
 buttonsOperator.forEach((operator) => {
   operator.addEventListener("click", handleStoringOperatorToArray);
   operator.addEventListener("click", addingNumbers);
 });
-
-// if (buttonAdd) {
-//   buttonAdd.addEventListener("click", () => {
-//     addingNumbers();
-//   });
-// }
 
 if (buttonsEqual) {
   buttonsEqual.addEventListener("click", () => {
@@ -136,6 +130,7 @@ if (buttonsEqual) {
 // Pressing operator turns array so far into one number, and moves to another array
 // Put first number in array, and then stored operator, and then second number
 // - Use if to see what the operator is, and if match, do firstNumb *operator* secondNumb and reset array
+// Create Clear and complete clear
 
 // for (let i: number = 0; i < sumOfNums.length; i++) {
 //     if (!sumOfNums[0]){
