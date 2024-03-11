@@ -1,14 +1,11 @@
 import "./style.scss";
 
 const sumOfNumsString: unknown[] = []; // String to hold inputted numbers
-const storingOperatorType: string[] = [];
-let finalAnswer: number = 0; // Variable to hold final answer
-let currentSum: number = 0;
+const storingNumbers: number[] = [];
+let answer: number = 0; // Variable to hold final answer
 let firstNumberAsNumber = 0;
-let secondNumberAsNumber = 0;
-let numbersWithOperator: unknown [] = [];
+const numbersWithOperator: unknown [] = [];
 
-// Declaring variables for html elements
 const buttonsNumber = document.querySelectorAll<HTMLButtonElement>(".button--number");
 const buttonsEqual = document.querySelector<HTMLButtonElement>(".button--equals");
 const screenAnswer = document.querySelector<HTMLDivElement>(".screen--answer");
@@ -40,40 +37,45 @@ const handleClickedButtonToScreenEquation = (event: Event) => {
   }
 };
 
-const addingNumbers = (): number => {
+const addingNumbers = (): void => {
   let firstNumber = sumOfNumsString.join(""); 
-  firstNumberAsNumber = parseFloat(firstNumber); 
+  firstNumberAsNumber = parseFloat(firstNumber);
+  if (!isNaN(firstNumberAsNumber)){
+    storingNumbers.push(firstNumberAsNumber);
+  }
+  console.log(storingNumbers);
   for (let i: number = 0; i < sumOfNumsString.length; i = 0) {
     sumOfNumsString.shift();
   }
-  return firstNumberAsNumber;
 };
 
-const addingNumbers2 = (): number => {
-  let secondNumber = sumOfNumsString.join("");
-  secondNumberAsNumber = parseFloat(secondNumber);
-  return secondNumberAsNumber;
-};
 
-console.log(firstNumberAsNumber);
-
-const result = addingNumbers();
-console.log(result);
 
 const postingAnswer = (): void => {
   // Changes the answer section on calc to answer
-  if (screenAnswer) {
-    if (numbersWithOperator[0] == "+") {
-      screenAnswer.innerText = (firstNumberAsNumber + secondNumberAsNumber).toString();
-    } else if (numbersWithOperator[0] == "x") {
-      screenAnswer.innerText = (firstNumberAsNumber * secondNumberAsNumber).toString();
-    } else if (numbersWithOperator[0] == "-") {
-      screenAnswer.innerText = (firstNumberAsNumber - secondNumberAsNumber).toString();
-    } else if (numbersWithOperator[0] == "÷") {
-      screenAnswer.innerText = (firstNumberAsNumber / secondNumberAsNumber).toString();
+  for (let i = 0; i < numbersWithOperator.length; i++){
+    console.log(storingNumbers)
+    if (screenAnswer) {
+      if (numbersWithOperator[i] === "+") {
+        answer = (storingNumbers[0] + storingNumbers[1]);
+      } else if (numbersWithOperator[i] === "x") {
+        answer = (storingNumbers[0] * storingNumbers[1]);
+      } else if (numbersWithOperator[i] === "-") {
+        answer = (storingNumbers[0] - storingNumbers[1]);
+      } else if (numbersWithOperator[i] === "÷") {
+        answer = (storingNumbers[0] / storingNumbers[1]);
+      }
+    } else {
+      console.error("ERROR");
     }
-  } else {
-    console.error("ERROR");
+    storingNumbers.splice(0, 2);
+    storingNumbers.unshift(answer)
+    console.log(numbersWithOperator)
+    console.log(storingNumbers)
+    console.log(answer)
+    if(screenAnswer){
+    screenAnswer.innerText = answer.toString()
+    }
   }
 };
 
@@ -85,12 +87,22 @@ const handleStoringOperatorToArray = (event: Event) => {
 
 const handleResetCalculator = () => {
   if (screenAnswer){
-  screenAnswer.innerText = "";
+    screenAnswer.innerText = "";
   }
   if (screenEquation){
-  screenEquation.innerText = "0";
+    screenEquation.innerText = "0";
+    for (let i = numbersWithOperator.length; i > 0; i--){
+      numbersWithOperator.pop()
+    }
+    for (let i = storingNumbers.length; i > 0; i--){
+      storingNumbers.pop()
+    }
+    for (let i = sumOfNumsString.length; i > 0; i--) {
+      sumOfNumsString.pop();
+    }
   }
-
+  console.log(numbersWithOperator)
+  console.log(storingNumbers)
 }
 
 // Multiple event listeners
@@ -114,7 +126,7 @@ buttonsOperator.forEach((operator) => {
 
 if (buttonsEqual) {
   buttonsEqual.addEventListener("click", () => {
-    addingNumbers2(); // Calls two functions, adding numbers first to get
+    addingNumbers(); // Calls two functions, adding numbers first to get
     postingAnswer(); // Final answer for postingAnswer()
   });
 }
