@@ -1,7 +1,7 @@
 import "./style.scss";
 
 const sumOfNumsString: unknown[] = []; // String to hold inputted numbers
-const storingNumbers: number[] = [];
+const storingNumbers: number | string [] = [];
 let answer: number = 0; // Variable to hold final answer
 let firstNumberAsNumber = 0;
 const numbersWithOperator: unknown [] = [];
@@ -43,7 +43,6 @@ const addingNumbers = (): void => {
   if (!isNaN(firstNumberAsNumber)){
     storingNumbers.push(firstNumberAsNumber);
   }
-  console.log(storingNumbers);
   for (let i: number = 0; i < sumOfNumsString.length; i = 0) {
     sumOfNumsString.shift();
   }
@@ -54,7 +53,7 @@ const addingNumbers = (): void => {
 const postingAnswer = (): void => {
   // Changes the answer section on calc to answer
   for (let i = 0; i < numbersWithOperator.length; i++){
-    console.log(storingNumbers)
+
     if (screenAnswer) {
       if (numbersWithOperator[i] === "+") {
         answer = (storingNumbers[0] + storingNumbers[1]);
@@ -70,9 +69,6 @@ const postingAnswer = (): void => {
     }
     storingNumbers.splice(0, 2);
     storingNumbers.unshift(answer)
-    console.log(numbersWithOperator)
-    console.log(storingNumbers)
-    console.log(answer)
     if(screenAnswer){
     screenAnswer.innerText = answer.toString()
     }
@@ -82,7 +78,6 @@ const postingAnswer = (): void => {
 const handleStoringOperatorToArray = (event: Event) => {
   const operatorPressed = event.currentTarget as HTMLButtonElement;
   numbersWithOperator.push(operatorPressed.innerText,);
-  console.log(numbersWithOperator);
 };
 
 const handleResetCalculator = () => {
@@ -101,8 +96,6 @@ const handleResetCalculator = () => {
       sumOfNumsString.pop();
     }
   }
-  console.log(numbersWithOperator)
-  console.log(storingNumbers)
 }
 
 // Multiple event listeners
