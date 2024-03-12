@@ -33,17 +33,13 @@ const handleClickedButtonNumberToArray = (event: Event) => {  // Takes value of 
 
 const turnStringIntoArithmeticEquation = () => {
   arithmeticEquation = sumOfNumsString.join(""); 
-  console.log(arithmeticEquation)
   bracketsFromEquation = arithmeticEquation.match(/\([^()]*\)/g);
 
-  console.log(bracketsFromEquation)
   const removeBracketsFromEquation = bracketsFromEquation?.map(equation =>
     equation.slice(1, -1));
-  console.log(removeBracketsFromEquation)
 
   if (removeBracketsFromEquation) {
     evaluatedExpressions = removeBracketsFromEquation.map(performEquationWithinBrackets);
-    console.log(evaluatedExpressions);
 }
 }
 
@@ -82,7 +78,6 @@ const returnBracketResultToEquation = () => {
       newExpression = newExpression.replace(equation, evaluatedExpressions[index].toString())  // replaces the bracketed strings with
     })                                                                                         // their calculated values
   }
-  console.log(newExpression)
 }
 
 const seperatingArrayIntoNumbersAndOperators = () => {
@@ -159,19 +154,14 @@ const postingAnswer = (): void => {                             // Changes the a
     switch (operator) {
       case "+":
         result += storingNumbers[i];
-        console.log(result);
-        console.log(finalOperators);
         break;
       case "-":
         result -= storingNumbers[i];
-        console.log(result);
-        console.log(finalOperators);
         break;
     }
   }
   screenAnswer.innerText = result.toString();
   storingAnswer.push(result.toString())
-  console.log(storingAnswer)
 };
 
 const handleAnswerHoldingButton = () => {
@@ -184,6 +174,13 @@ const handleAnswerHoldingButton = () => {
   }
   screenEquation.innerText += buttonAns.innerText.toUpperCase();
   sumOfNumsString.push(storingAnswer[0])
+  for (let i = storingAnswer.length; i > 0; i--) {
+    storingAnswer.pop();
+  }
+  console.log(storingAnswer[0]);
+  
+  console.log(sumOfNumsString);
+  
 }
 
 const handleStoringOperatorToArray = (event: Event) => {
@@ -197,9 +194,6 @@ const handleResetCalculator = () => {
     screenAnswer.innerText = "";
   }
     screenEquation.innerText = "0";
-    for (let i = storingAnswer.length; i > 0; i--){
-      storingAnswer.pop()
-    }
     for (let i = storingNumbers.length; i > 0; i--){
       storingNumbers.pop()
     }
@@ -226,6 +220,7 @@ buttonClear.addEventListener("click", handleResetCalculator);
 buttonAns.addEventListener("click", () => {
   handleResetCalculator();
   handleAnswerHoldingButton();
+  
 })
 
 buttonsOperator.forEach((operator) => {
