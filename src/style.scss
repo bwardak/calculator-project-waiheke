@@ -84,4 +84,11 @@ body {
   }
 }
 
+#hide-plus {
+  font-size: 0;
+}
 
+#hide-plus::before {
+  content: "-";
+  font-size: 1.5rem;
+}
