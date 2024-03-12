@@ -1,7 +1,8 @@
 import "./style.scss";
 
 const sumOfNumsString: unknown[] = []; // String to hold inputted numbers
-const storingNumbers: number [] = [];
+let storingNumbers: number [] = [];
+let storingOperators: string[] = [];
 let answer: number = 0; // Variable to hold final answer
 let firstNumberAsNumber = 0;
 const numbersWithOperator: unknown [] = [];
@@ -82,6 +83,13 @@ const returnBracketResultToEquation = () => {
   console.log(newExpression)
 }
 
+const seperatingArrayIntoNumbersAndOperators = () => {
+  storingNumbers = newExpression.match(/\d+/g)?.map(Number);
+  console.log(storingNumbers)
+  storingOperators = newExpression.match(/\D/g);
+  console.log(storingOperators)
+}
+
 const handleClickedButtonToScreenEquation = (event: Event) => {      // Function to put last pressed button into screen
   const inputtedButton = event.currentTarget as HTMLButtonElement;
     if (screenEquation.innerText === "0" && screenEquation.innerText.length == 1 ) {
@@ -103,14 +111,14 @@ const addingNumbers = (): void => {
 };
 
 const postingAnswer = (): void => {                             // Changes the answer section on calc to answer
-  for (let i = 0; i < numbersWithOperator.length; i++){
-      if (numbersWithOperator[i] === "+") {
+  for (let i = 0; i < storingOperators.length; i++){
+      if (storingOperators[i] === "+") {
         answer = (storingNumbers[0] + storingNumbers[1]);
-      } else if (numbersWithOperator[i] === "x") {
+      } else if (storingOperators[i] === "x") {
         answer = (storingNumbers[0] * storingNumbers[1]);
-      } else if (numbersWithOperator[i] === "-") {
+      } else if (storingOperators[i] === "-") {
         answer = (storingNumbers[0] - storingNumbers[1]);
-      } else if (numbersWithOperator[i] === "÷") {
+      } else if (storingOperators[i] === "÷") {
         answer = (storingNumbers[0] / storingNumbers[1]);
       }
     storingNumbers.splice(0, 2);
@@ -160,9 +168,11 @@ buttonsOperator.forEach((operator) => {
 
 buttonsEqual.addEventListener("click", () => {
   //addingNumbers(); // Calls two functions, adding numbers first to get
-  postingAnswer(); // Final answer for postingAnswer()
+   // Final answer for postingAnswer()
   turnStringIntoArithmeticEquation();
   returnBracketResultToEquation();
+  seperatingArrayIntoNumbersAndOperators();
+  postingAnswer();
 });
 
 
