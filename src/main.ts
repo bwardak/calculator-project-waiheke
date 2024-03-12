@@ -3,6 +3,7 @@ import "./style.scss";
 const sumOfNumsString: unknown[] = []; // String to hold inputted numbers
 let storingNumbers: number [] = [];
 let storingOperators: string[] = [];
+let storingAnswer: string[] = [];
 let answer: number = 0; // Variable to hold final answer
 let firstNumberAsNumber = 0;
 const numbersWithOperator: unknown [] = [];
@@ -17,9 +18,10 @@ const screenAnswer = document.querySelector<HTMLDivElement>(".screen--answer");
 const screenEquation = document.querySelector<HTMLDivElement>(".screen--equation");
 const buttonsAll = document.querySelectorAll<HTMLButtonElement>(".button");
 const buttonsOperator = document.querySelectorAll<HTMLButtonElement>(".button--operator");
-const buttonClear = document.querySelector<HTMLButtonElement>('.button--clear')
+const buttonClear = document.querySelector<HTMLButtonElement>('.button--clear');
+const buttonAns = document.querySelector<HTMLButtonElement>(".button--ans");
 
-if (!screenEquation || !screenAnswer || !buttonClear || !buttonsEqual) {
+if (!screenEquation || !screenAnswer || !buttonClear || !buttonsEqual || !buttonAns) {
   throw new Error("Issue with selector for container");
 }
 
@@ -110,22 +112,76 @@ const addingNumbers = (): void => {
   }
 };
 
-const postingAnswer = (): void => {                             // Changes the answer section on calc to answer
-  for (let i = 0; i < storingOperators.length; i++){
-      if (storingOperators[i] === "+") {
-        answer = (storingNumbers[0] + storingNumbers[1]);
-      } else if (storingOperators[i] === "x") {
-        answer = (storingNumbers[0] * storingNumbers[1]);
-      } else if (storingOperators[i] === "-") {
-        answer = (storingNumbers[0] - storingNumbers[1]);
-      } else if (storingOperators[i] === "÷") {
-        answer = (storingNumbers[0] / storingNumbers[1]);
-      }
-    storingNumbers.splice(0, 2);
-    storingNumbers.unshift(answer)
-    screenAnswer.innerText = answer.toString()
+const removeRedundantPlus = (operators) => {
+  let minusIndex = operators.findIndex((op) => op === "-");
+
+  while (minusIndex !== -1) {
+    let plusIndex = minusIndex - 1;
+    while (plusIndex >= 0 && operators[plusIndex] === "+") {
+      operators.splice(plusIndex, 1);
+      plusIndex--;
+    }
+    minusIndex = operators.findIndex(
+      (op, index) => op === "-" && index > minusIndex
+    );
   }
+
+  return operators;
 };
+
+const postingAnswer = (): void => {                             // Changes the answer section on calc to answer
+  const finalOperators = removeRedundantPlus(storingOperators);
+  console.log(finalOperators)
+  for (let i = 0; i < storingOperators.length; i++) {
+    if (finalOperators[i] === "*") {
+      const result = storingNumbers[i] * storingNumbers[i + 1];
+      storingNumbers.splice(i, 2, result);
+      finalOperators.splice(i, 1);
+      i--;
+      console.log(result)
+      console.log(finalOperators)
+    } else if (finalOperators[i] === "/") {
+      const result = storingNumbers[i] / storingNumbers[i + 1];
+      storingNumbers.splice(i, 2, result);
+      finalOperators.splice(i, 1);
+      i--;
+      console.log(result);
+      console.log(finalOperators);
+    }
+  }
+
+  // Then perform addition and subtraction
+  let result = storingNumbers[0];
+  for (let i = 1; i < storingNumbers.length; i++) {
+    const operator = finalOperators[i - 1];
+    switch (operator) {
+      case "+":
+        result += storingNumbers[i];
+        console.log(result);
+        console.log(finalOperators);
+        break;
+      case "-":
+        result -= storingNumbers[i];
+        console.log(result);
+        console.log(finalOperators);
+        break;
+    }
+  }
+  screenAnswer.innerText = result.toString();
+  storingAnswer.push(result.toString())
+  console.log(storingAnswer)
+};
+
+const handleAnswerHoldingButton = () => {
+  console.log(storingAnswer);
+  if (
+    screenEquation.innerText === "0" &&
+    screenEquation.innerText.length == 1
+  ) {
+    screenEquation.innerText = ""; // Removes the 0 on screen when typing starts
+  }
+  screenEquation.innerText += buttonAns.innerText;
+}
 
 const handleStoringOperatorToArray = (event: Event) => {
   const operatorPressed = event.currentTarget as HTMLButtonElement;
@@ -138,14 +194,17 @@ const handleResetCalculator = () => {
     screenAnswer.innerText = "";
   }
     screenEquation.innerText = "0";
-    for (let i = numbersWithOperator.length; i > 0; i--){
-      numbersWithOperator.pop()
-    }
+    // for (let i = storingAnswer.length; i > 0; i--){
+    //   storingAnswer.pop()
+    // }
     for (let i = storingNumbers.length; i > 0; i--){
       storingNumbers.pop()
     }
     for (let i = sumOfNumsString.length; i > 0; i--) {
       sumOfNumsString.pop();
+    }
+    for (let i = storingOperators.length; i > 0; i--){
+      storingOperators.pop()
     }
 }
 
@@ -160,6 +219,11 @@ buttonsAll.forEach((button) => {
 });
 
 buttonClear.addEventListener("click", handleResetCalculator);
+
+buttonAns.addEventListener("click", () => {
+  handleResetCalculator();
+  handleAnswerHoldingButton();
+})
 
 buttonsOperator.forEach((operator) => {
   operator.addEventListener("click", handleStoringOperatorToArray);
