@@ -5,7 +5,6 @@ $screen-font: "Roboto", sans-serif;
 * {
   margin: 0;
   padding: 0;
-  background-color: gray;
   box-sizing: border-box;
 }
 
@@ -16,12 +15,22 @@ body {
   align-items: center;
 }
 
+.background {
+  width: 100vw;
+  height: 100vh;
+  background-color:rgb(133, 132, 132);
+  z-index: -1;
+  font-size: 7rem;
+}
+
 .calculator {
   max-width: 280px;
   max-height: 566px;
   width: 100%;
-  margin: 0 20px;
+  margin: 180px auto;
   border: 2px solid black;
+  border-radius: 10px;
+  background-color: rgb(190, 185, 185);
 
   .screen,
   .button {
@@ -30,6 +39,8 @@ body {
   }
 }
 
+
+
 .calculator {
   text-align: center;
 }
@@ -37,6 +48,8 @@ body {
 .top-screen {
   display: grid;
   grid-template: repeat(5, 1fr) / repeat(5, 1fr);
+  background-color: white;
+  border-radius: 10px;
   border-bottom: 2px solid black;
   
 
@@ -65,18 +78,50 @@ body {
 }
 
 
+
+.bottom-buttons {
+  background-color: rgb(190, 185, 185);
+}
+
 .calc-row {
   display: flex;
   justify-content: space-evenly;
   margin: 10px 0;
 }
 
+.first-row {
+  
+  .button {
+    background-color: gray;
+  }
+}
+
+.second-row {
+  .button:nth-last-child(1) {
+    background-color: gray;
+  }
+}
+
+.third-row {
+  .button:nth-last-child(1) {
+    background-color: gray;
+  }
+}
+
+.fourth-row {
+  .button:nth-last-child(1) {
+    background-color: gray;
+  }
+}
+
+
+
 .button {
   width: 50px;
   height: 50px;
   border: 2px solid black;
-  border-top-width: 1px;
   border-radius: 15px;
+  background-color: white;
 }
 
 .button--omit{
@@ -86,6 +131,7 @@ body {
   border-top-width: 1px;
   border-radius: 100%;
   font-size: 1.5rem;
+  background-color: gray;
 }
 
 .top-screen {
