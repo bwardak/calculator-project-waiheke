@@ -81,9 +81,10 @@ const returnBracketResultToEquation = () => {
 }
 
 const seperatingArrayIntoNumbersAndOperators = () => {
-  storingNumbers = newExpression.match(/\d+/g)?.map(Number);
+  console.log(newExpression)
+  storingNumbers = newExpression.match(/\d+(\.\d+)?/g)?.map(Number);
   console.log(storingNumbers)
-  storingOperators = newExpression.match(/\D/g);
+  storingOperators = newExpression.match(/[^\d.]+/g);
   console.log(storingOperators)
 }
 
@@ -92,7 +93,11 @@ const handleClickedButtonToScreenEquation = (event: Event) => {      // Function
     if (screenEquation.innerText === "0" && screenEquation.innerText.length == 1 ) {
       screenEquation.innerText = ""; // Removes the 0 on screen when typing starts
     } 
-    screenEquation.innerText += inputtedButton.innerText;
+    if (inputtedButton.innerText === "+-") {
+      screenEquation.innerText += "-";
+    }else {
+      screenEquation.innerText += inputtedButton.innerText;
+    }
     
 };
 
@@ -253,6 +258,7 @@ buttonsEqual.addEventListener("click", () => {
 // If i enter just a operator, gives NAN
 // Entering without an operator should give the number back
 // Add brackets to first array, join them into an array and then turn whats inside into a number BEFORE ANY THING ELSE
+// If screen.answer !== "" do ans
 
 
 

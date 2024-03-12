@@ -13,15 +13,9 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color:rgb(133, 132, 132);
 }
 
-.background {
-  width: 100vw;
-  height: 100vh;
-  background-color:rgb(133, 132, 132);
-  z-index: -1;
-  font-size: 7rem;
-}
 
 .calculator {
   max-width: 280px;
