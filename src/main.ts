@@ -32,7 +32,7 @@ const handleClickedButtonNumberToArray = (event: Event) => {  // Takes value of 
 };
 
 const turnStringIntoArithmeticEquation = () => {
-  arithmeticEquation = sumOfNumsString.join("");
+  arithmeticEquation = sumOfNumsString.join(""); 
   console.log(arithmeticEquation)
   bracketsFromEquation = arithmeticEquation.match(/\([^()]*\)/g);
 
@@ -76,11 +76,11 @@ const performEquationWithinBrackets = (equation) => {
 }
 
 const returnBracketResultToEquation = () => {
-  newExpression = arithmeticEquation;
+  newExpression = arithmeticEquation;             // Creates shallow copy of original arithmetic equation
     if (bracketsFromEquation){
     bracketsFromEquation.forEach((equation, index) => {
-      newExpression = newExpression.replace(equation, evaluatedExpressions[index].toString())
-    })
+      newExpression = newExpression.replace(equation, evaluatedExpressions[index].toString())  // replaces the bracketed strings with
+    })                                                                                         // their calculated values
   }
   console.log(newExpression)
 }
@@ -96,8 +96,9 @@ const handleClickedButtonToScreenEquation = (event: Event) => {      // Function
   const inputtedButton = event.currentTarget as HTMLButtonElement;
     if (screenEquation.innerText === "0" && screenEquation.innerText.length == 1 ) {
       screenEquation.innerText = ""; // Removes the 0 on screen when typing starts
-    }
+    } 
     screenEquation.innerText += inputtedButton.innerText;
+    
 };
 
 
@@ -112,14 +113,15 @@ const addingNumbers = (): void => {
   }
 };
 
-const removeRedundantPlus = (operators) => {
+const removeRedundantPlus = (operators: string[]) => {
   let minusIndex = operators.findIndex((op) => op === "-");
 
   while (minusIndex !== -1) {
     let plusIndex = minusIndex - 1;
-    while (plusIndex >= 0 && operators[plusIndex] === "+") {
+    while (operators[plusIndex] === "+") {
       operators.splice(plusIndex, 1);
       plusIndex--;
+      break           // Breaks loop so it doesnt remove every + before -
     }
     minusIndex = operators.findIndex(
       (op, index) => op === "-" && index > minusIndex
@@ -180,7 +182,8 @@ const handleAnswerHoldingButton = () => {
   ) {
     screenEquation.innerText = ""; // Removes the 0 on screen when typing starts
   }
-  screenEquation.innerText += buttonAns.innerText;
+  screenEquation.innerText += buttonAns.innerText.toUpperCase();
+  sumOfNumsString.push(storingAnswer[0])
 }
 
 const handleStoringOperatorToArray = (event: Event) => {
@@ -194,9 +197,9 @@ const handleResetCalculator = () => {
     screenAnswer.innerText = "";
   }
     screenEquation.innerText = "0";
-    // for (let i = storingAnswer.length; i > 0; i--){
-    //   storingAnswer.pop()
-    // }
+    for (let i = storingAnswer.length; i > 0; i--){
+      storingAnswer.pop()
+    }
     for (let i = storingNumbers.length; i > 0; i--){
       storingNumbers.pop()
     }

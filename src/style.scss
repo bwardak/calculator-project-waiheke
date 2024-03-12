@@ -75,6 +75,15 @@ body {
   border-radius: 100%;
 }
 
+.button--omit{
+  width: 50px;
+  height: 50px;
+  border: 2px solid black;
+  border-top-width: 1px;
+  border-radius: 100%;
+  font-size: 1.5rem;
+}
+
 .top-screen {
 
   .screen--equation {
