@@ -100,21 +100,19 @@ const seperatingArrayIntoNumbersAndOperators = (): void => {
 
 const handleClickedButtonToScreenEquation = (event: Event) => {      
   const inputtedButton = event.currentTarget as HTMLButtonElement;
-    if (screenEquation.innerText === "0" && screenEquation.innerText.length == 1 ) {
-      screenEquation.innerText = ""; 
-    } 
-    if (inputtedButton.innerText === "+-") {
-      screenEquation.innerText += "-";
-    }else {
-      screenEquation.innerText += inputtedButton.innerText;
-    }
-    
+  if (screenEquation.innerText === "0" && screenEquation.innerText.length == 1 ) {
+    screenEquation.innerText = ""; 
+  } 
+  if (inputtedButton.innerText === "+-") {
+    screenEquation.innerText += "-";
+  } else {
+    screenEquation.innerText += inputtedButton.innerText;
+  }
 };
 
 
 const removeRedundantPlus = (operators: string[]) => {
   let minusIndex = operators.findIndex((op) => op === "-");
-
   while (minusIndex !== -1) {
     let plusIndex = minusIndex - 1;
     while (operators[plusIndex] === "+") {
