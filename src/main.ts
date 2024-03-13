@@ -11,6 +11,8 @@ let evaluatedExpressions: number[] = [];
 let arithmeticEquation: string;
 let bracketsFromEquation: RegExpMatchArray | null = null;
 let newExpression: string;
+let storingOperatorsPlusMinus;
+let storingOperatorsPlusMinusString;
 
 const buttonsNumber = document.querySelectorAll<HTMLButtonElement>(".button--number");
 const buttonsEqual = document.querySelector<HTMLButtonElement>(".button--equals");
@@ -28,6 +30,11 @@ if (!screenEquation || !screenAnswer || !buttonClear || !buttonsEqual || !button
 const handleClickedButtonNumberToArray = (event: Event) => {  // Takes value of clicked button
   const value = event.currentTarget as HTMLButtonElement;     // and adds the value to an array
   sumOfNumsString.push(value.innerText);
+  console.log(sumOfNumsString);
+  
+  if (sumOfNumsString[0] === "+" || sumOfNumsString[0] === "+-" || sumOfNumsString[0] === "*" || sumOfNumsString[0] === "/" ){
+    sumOfNumsString.shift()  // If first entry in array is operator, remove it.
+  }
   console.log(sumOfNumsString)
 };
 
@@ -83,8 +90,13 @@ const returnBracketResultToEquation = () => {
 const seperatingArrayIntoNumbersAndOperators = () => {
   console.log(newExpression)
   storingNumbers = newExpression.match(/\d+(\.\d+)?/g)?.map(Number);
+  if (screenEquation.innerText[0] === "-") {
+    storingNumbers[0] = storingNumbers[0] * -1;
+  }
   console.log(storingNumbers)
-  storingOperators = newExpression.match(/[^\d.]+/g);
+  storingOperatorsPlusMinus = newExpression.match(/[^\d.]+/g);
+  storingOperatorsPlusMinusString = storingOperatorsPlusMinus.join("")
+  storingOperators = storingOperatorsPlusMinusString.match(/\D/g);
   console.log(storingOperators)
 }
 
@@ -165,8 +177,15 @@ const postingAnswer = (): void => {                             // Changes the a
         break;
     }
   }
+  // if (screenEquation.innerText[0] === "-") {
+  //   result = result * -1
+  // } else {
+  //   result = result
+  // }
+  console.log(screenEquation.innerText[0])
   screenAnswer.innerText = result.toString();
   storingAnswer.push(result.toString())
+  console.log(storingAnswer)
 };
 
 const handleAnswerHoldingButton = () => {
@@ -178,6 +197,12 @@ const handleAnswerHoldingButton = () => {
     screenEquation.innerText = ""; // Removes the 0 on screen when typing starts
   }
   screenEquation.innerText += buttonAns.innerText.toUpperCase();
+  if (storingAnswer.length > 1) {
+    storingAnswer.shift
+  }
+  for (let i = sumOfNumsString.length; i > 0; i--) {
+    sumOfNumsString.pop();
+  }
   sumOfNumsString.push(storingAnswer[0])
   for (let i = storingAnswer.length; i > 0; i--) {
     storingAnswer.pop();
