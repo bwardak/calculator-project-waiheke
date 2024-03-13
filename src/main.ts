@@ -4,9 +4,6 @@ const sumOfNumsString: unknown[] = []; // String to hold inputted numbers
 let storingNumbers: number [] = [];
 let storingOperators: string[] = [];
 let storingAnswer: string[] = [];
-let answer: number = 0; // Variable to hold final answer
-let firstNumberAsNumber = 0;
-const numbersWithOperator: unknown [] = [];
 let evaluatedExpressions: number[] = [];
 let arithmeticEquation: string;
 let bracketsFromEquation: RegExpMatchArray | null = null;
@@ -22,8 +19,11 @@ const buttonsAll = document.querySelectorAll<HTMLButtonElement>(".button");
 const buttonsOperator = document.querySelectorAll<HTMLButtonElement>(".button--operator");
 const buttonClear = document.querySelector<HTMLButtonElement>('.button--clear');
 const buttonAns = document.querySelector<HTMLButtonElement>(".button--ans");
+const screenNight = document.querySelector<HTMLSpanElement>(".moon")
+const screenDay = document.querySelector<HTMLSpanElement>(".sun");
+const body = document.body
 
-if (!screenEquation || !screenAnswer || !buttonClear || !buttonsEqual || !buttonAns) {
+if (!screenEquation || !screenAnswer || !buttonClear || !buttonsEqual || !buttonAns || !screenDay || !screenNight) {
   throw new Error("Issue with selector for container");
 }
 
@@ -38,17 +38,20 @@ const handleClickedButtonNumberToArray = (event: Event) => {  // Takes value of 
   console.log(sumOfNumsString)
 };
 
-const turnStringIntoArithmeticEquation = () => {
-  arithmeticEquation = sumOfNumsString.join(""); 
+const turnStringIntoArithmeticEquation = (): void => {
+  arithmeticEquation = sumOfNumsString.join("");
   bracketsFromEquation = arithmeticEquation.match(/\([^()]*\)/g);
 
-  const removeBracketsFromEquation = bracketsFromEquation?.map(equation =>
-    equation.slice(1, -1));
+  const removeBracketsFromEquation = bracketsFromEquation?.map((equation) =>
+    equation.slice(1, -1)
+  );
 
   if (removeBracketsFromEquation) {
-    evaluatedExpressions = removeBracketsFromEquation.map(performEquationWithinBrackets);
-}
-}
+    evaluatedExpressions = removeBracketsFromEquation.map(
+      performEquationWithinBrackets
+    );
+  }
+};
 
 const performEquationWithinBrackets = (equation) => {
   const splittedEquation = equation.match(/(-?\d+)|([+\-*/])/g);
@@ -78,16 +81,19 @@ const performEquationWithinBrackets = (equation) => {
   return result
 }
 
-const returnBracketResultToEquation = () => {
-  newExpression = arithmeticEquation;             // Creates shallow copy of original arithmetic equation
-    if (bracketsFromEquation){
+const returnBracketResultToEquation = (): void => {
+  newExpression = arithmeticEquation; // Creates shallow copy of original arithmetic equation
+  if (bracketsFromEquation) {
     bracketsFromEquation.forEach((equation, index) => {
-      newExpression = newExpression.replace(equation, evaluatedExpressions[index].toString())  // replaces the bracketed strings with
-    })                                                                                         // their calculated values
+      newExpression = newExpression.replace(
+        equation,
+        evaluatedExpressions[index].toString()
+      ); // replaces the bracketed strings with
+    }); // their calculated values
   }
-}
+};
 
-const seperatingArrayIntoNumbersAndOperators = () => {
+const seperatingArrayIntoNumbersAndOperators = (): void => {
   console.log(newExpression)
   storingNumbers = newExpression.match(/\d+(\.\d+)?/g)?.map(Number);
   if (screenEquation.innerText[0] === "-") {
@@ -113,17 +119,6 @@ const handleClickedButtonToScreenEquation = (event: Event) => {      // Function
     
 };
 
-
-const addingNumbers = (): void => {
-  let firstNumber = newExpression 
-  firstNumberAsNumber = parseFloat(firstNumber);
-  if (!isNaN(firstNumberAsNumber)){
-    storingNumbers.push(firstNumberAsNumber);
-  }
-  for (let i: number = 0; i < sumOfNumsString.length; i = 0) {
-    sumOfNumsString.shift();
-  }
-};
 
 const removeRedundantPlus = (operators: string[]) => {
   let minusIndex = operators.findIndex((op) => op === "-");
@@ -188,7 +183,7 @@ const postingAnswer = (): void => {                             // Changes the a
   console.log(storingAnswer)
 };
 
-const handleAnswerHoldingButton = () => {
+const handleAnswerHoldingButton = (): void => {
   console.log(storingAnswer);
   if (
     screenEquation.innerText === "0" &&
@@ -198,20 +193,19 @@ const handleAnswerHoldingButton = () => {
   }
   screenEquation.innerText += buttonAns.innerText.toUpperCase();
   if (storingAnswer.length > 1) {
-    storingAnswer.shift
+    storingAnswer.shift;
   }
   for (let i = sumOfNumsString.length; i > 0; i--) {
     sumOfNumsString.pop();
   }
-  sumOfNumsString.push(storingAnswer[0])
+  sumOfNumsString.push(storingAnswer[0]);
   for (let i = storingAnswer.length; i > 0; i--) {
     storingAnswer.pop();
   }
   console.log(storingAnswer[0]);
-  
+
   console.log(sumOfNumsString);
-  
-}
+};
 
 const handleStoringOperatorToArray = (event: Event) => {
   const operatorPressed = event.currentTarget as HTMLButtonElement;
@@ -219,21 +213,21 @@ const handleStoringOperatorToArray = (event: Event) => {
   console.log(sumOfNumsString)
 };
 
-const handleResetCalculator = () => {
-  if (screenAnswer){
+const handleResetCalculator = (): void => {
+  if (screenAnswer) {
     screenAnswer.innerText = "";
   }
-    screenEquation.innerText = "0";
-    for (let i = storingNumbers.length; i > 0; i--){
-      storingNumbers.pop()
-    }
-    for (let i = sumOfNumsString.length; i > 0; i--) {
-      sumOfNumsString.pop();
-    }
-    for (let i = storingOperators.length; i > 0; i--){
-      storingOperators.pop()
-    }
-}
+  screenEquation.innerText = "0";
+  for (let i = storingNumbers.length; i > 0; i--) {
+    storingNumbers.pop();
+  }
+  for (let i = sumOfNumsString.length; i > 0; i--) {
+    sumOfNumsString.pop();
+  }
+  for (let i = storingOperators.length; i > 0; i--) {
+    storingOperators.pop();
+  }
+};
 
 // Multiple event listeners
 
@@ -266,6 +260,15 @@ buttonsEqual.addEventListener("click", () => {
   seperatingArrayIntoNumbersAndOperators();
   postingAnswer();
 });
+
+screenNight.addEventListener('click', () => {
+  body.classList.toggle('dark-mode');
+})
+
+screenDay.addEventListener('click', () => {
+  body.classList.toggle('dark-mode');
+})
+
 
 
 // Button clicks when clicking middle

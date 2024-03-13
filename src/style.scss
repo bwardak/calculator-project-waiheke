@@ -8,12 +8,12 @@ $screen-font: "Roboto", sans-serif;
   box-sizing: border-box;
 }
 
+
+
 body {
   height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background-color:rgb(133, 132, 132);
+  transition: filter 0.6s, background-color 0.6s;
 }
 
 
@@ -25,6 +25,7 @@ body {
   border: 2px solid black;
   border-radius: 10px;
   background-color: rgb(190, 185, 185);
+  box-shadow: 2px 2px 0 2px black;
 
   .screen,
   .button {
@@ -33,7 +34,11 @@ body {
   }
 }
 
-
+.dark-mode {
+  filter: invert(1) hue-rotate(180deg);
+  background-color: rgb(32, 32, 32);
+  transition: filter 0.6s, background-color 0.6s;
+}
 
 .calculator {
   text-align: center;
@@ -62,12 +67,10 @@ body {
     grid-area: 3 / 5 / 4 / 6;
   }
 
-  .screen--eraser {
-    grid-area: 5 / 5 / 6 / 6;
-  }
+
 
   .button--clear {
-    grid-area: 5 / 4 / 6 / 5;
+    grid-area: 5 / 5 / 6 / 6;
   }
 }
 
@@ -116,6 +119,7 @@ body {
   border: 2px solid black;
   border-radius: 15px;
   background-color: white;
+  box-shadow: 2px 2px 0 2px rgb(117, 117, 117);
 }
 
 .button--omit{
@@ -128,6 +132,14 @@ body {
   background-color: gray;
 }
 
+.button:active {
+  transform: scale(0.9);
+}
+
+.button--omit:active {
+  transform: scale(0.9);
+}
+
 .top-screen {
 
   .screen--equation {
@@ -136,6 +148,13 @@ body {
     margin-right: 21px;
   }
 }
+
+.top-screen__theme {
+  height: 40px;
+  cursor: pointer;
+}
+
+
 
 #hide-plus {
   font-size: 0;
