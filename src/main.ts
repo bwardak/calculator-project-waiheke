@@ -1,6 +1,6 @@
-import "./style.scss";
+import "./scss/style.scss";
 
-const sumOfNumsString: unknown[] = []; // String to hold inputted numbers
+const sumOfNumsString: unknown[] = []; 
 let storingNumbers: number [] = [];
 let storingOperators: string[] = [];
 let storingAnswer: string[] = [];
@@ -27,35 +27,31 @@ if (!screenEquation || !screenAnswer || !buttonClear || !buttonsEqual || !button
   throw new Error("Issue with selector for container");
 }
 
-const handleClickedButtonNumberToArray = (event: Event) => {  // Takes value of clicked button
-  const value = event.currentTarget as HTMLButtonElement;     // and adds the value to an array
+
+const handleClickedButtonNumberToArray = (event: Event) => {  
+  const value = event.currentTarget as HTMLButtonElement;     
   sumOfNumsString.push(value.innerText);
-  console.log(sumOfNumsString);
-  
   if (sumOfNumsString[0] === "+" || sumOfNumsString[0] === "+-" || sumOfNumsString[0] === "*" || sumOfNumsString[0] === "/" ){
     sumOfNumsString.shift()  // If first entry in array is operator, remove it.
   }
-  console.log(sumOfNumsString)
 };
 
 const turnStringIntoArithmeticEquation = (): void => {
   arithmeticEquation = sumOfNumsString.join("");
   bracketsFromEquation = arithmeticEquation.match(/\([^()]*\)/g);
-
   const removeBracketsFromEquation = bracketsFromEquation?.map((equation) =>
     equation.slice(1, -1)
   );
-
   if (removeBracketsFromEquation) {
-    evaluatedExpressions = removeBracketsFromEquation.map(
-      performEquationWithinBrackets
-    );
+    evaluatedExpressions = removeBracketsFromEquation.map(performEquationWithinBrackets);
   }
 };
 
-const performEquationWithinBrackets = (equation) => {
+const performEquationWithinBrackets = (equation: string) => {
   const splittedEquation = equation.match(/(-?\d+)|([+\-*/])/g);
-  console.log(splittedEquation)
+  if (!splittedEquation) {
+    throw new Error("Error with selector");
+  }
   let result = parseFloat(splittedEquation[0]);
 
   for (let i = 1; i < splittedEquation.length; i+= 2){
@@ -77,39 +73,35 @@ const performEquationWithinBrackets = (equation) => {
         break;
     }
   }
-  console.log(result)
   return result
 }
 
 const returnBracketResultToEquation = (): void => {
-  newExpression = arithmeticEquation; // Creates shallow copy of original arithmetic equation
+  newExpression = arithmeticEquation; 
   if (bracketsFromEquation) {
     bracketsFromEquation.forEach((equation, index) => {
       newExpression = newExpression.replace(
         equation,
         evaluatedExpressions[index].toString()
-      ); // replaces the bracketed strings with
-    }); // their calculated values
+      ); 
+    }); 
   }
 };
 
 const seperatingArrayIntoNumbersAndOperators = (): void => {
-  console.log(newExpression)
-  storingNumbers = newExpression.match(/\d+(\.\d+)?/g)?.map(Number);
+  storingNumbers = (newExpression.match(/\d+(\.\d+)?/g) ?? []).map(Number);  
   if (screenEquation.innerText[0] === "-") {
     storingNumbers[0] = storingNumbers[0] * -1;
   }
-  console.log(storingNumbers)
   storingOperatorsPlusMinus = newExpression.match(/[^\d.]+/g);
-  storingOperatorsPlusMinusString = storingOperatorsPlusMinus.join("")
-  storingOperators = storingOperatorsPlusMinusString.match(/\D/g);
-  console.log(storingOperators)
+  storingOperatorsPlusMinusString = storingOperatorsPlusMinus?.join("")
+  storingOperators = storingOperatorsPlusMinusString?.match(/\D/g) || [];
 }
 
-const handleClickedButtonToScreenEquation = (event: Event) => {      // Function to put last pressed button into screen
+const handleClickedButtonToScreenEquation = (event: Event) => {      
   const inputtedButton = event.currentTarget as HTMLButtonElement;
     if (screenEquation.innerText === "0" && screenEquation.innerText.length == 1 ) {
-      screenEquation.innerText = ""; // Removes the 0 on screen when typing starts
+      screenEquation.innerText = ""; 
     } 
     if (inputtedButton.innerText === "+-") {
       screenEquation.innerText += "-";
@@ -128,7 +120,7 @@ const removeRedundantPlus = (operators: string[]) => {
     while (operators[plusIndex] === "+") {
       operators.splice(plusIndex, 1);
       plusIndex--;
-      break           // Breaks loop so it doesnt remove every + before -
+      break           
     }
     minusIndex = operators.findIndex(
       (op, index) => op === "-" && index > minusIndex
@@ -138,28 +130,23 @@ const removeRedundantPlus = (operators: string[]) => {
   return operators;
 };
 
-const postingAnswer = (): void => {                             // Changes the answer section on calc to answer
+const postingAnswer = (): void => {                             
   const finalOperators = removeRedundantPlus(storingOperators);
-  console.log(finalOperators)
   for (let i = 0; i < storingOperators.length; i++) {
     if (finalOperators[i] === "*") {
       const result = storingNumbers[i] * storingNumbers[i + 1];
       storingNumbers.splice(i, 2, result);
       finalOperators.splice(i, 1);
       i--;
-      console.log(result)
-      console.log(finalOperators)
     } else if (finalOperators[i] === "/") {
       const result = storingNumbers[i] / storingNumbers[i + 1];
       storingNumbers.splice(i, 2, result);
       finalOperators.splice(i, 1);
       i--;
-      console.log(result);
-      console.log(finalOperators);
     }
   }
 
-  // Then perform addition and subtraction
+  
   let result = storingNumbers[0];
   for (let i = 1; i < storingNumbers.length; i++) {
     const operator = finalOperators[i - 1];
@@ -172,24 +159,17 @@ const postingAnswer = (): void => {                             // Changes the a
         break;
     }
   }
-  // if (screenEquation.innerText[0] === "-") {
-  //   result = result * -1
-  // } else {
-  //   result = result
-  // }
-  console.log(screenEquation.innerText[0])
+ 
   screenAnswer.innerText = result.toString();
   storingAnswer.push(result.toString())
-  console.log(storingAnswer)
 };
 
 const handleAnswerHoldingButton = (): void => {
-  console.log(storingAnswer);
   if (
     screenEquation.innerText === "0" &&
     screenEquation.innerText.length == 1
   ) {
-    screenEquation.innerText = ""; // Removes the 0 on screen when typing starts
+    screenEquation.innerText = ""; 
   }
   screenEquation.innerText += buttonAns.innerText.toUpperCase();
   if (storingAnswer.length > 1) {
@@ -202,15 +182,11 @@ const handleAnswerHoldingButton = (): void => {
   for (let i = storingAnswer.length; i > 0; i--) {
     storingAnswer.pop();
   }
-  console.log(storingAnswer[0]);
-
-  console.log(sumOfNumsString);
 };
 
 const handleStoringOperatorToArray = (event: Event) => {
   const operatorPressed = event.currentTarget as HTMLButtonElement;
-  sumOfNumsString.push(operatorPressed.innerText,);    // change back to storingoperator.push if bidmas doesnt work
-  console.log(sumOfNumsString)
+  sumOfNumsString.push(operatorPressed.innerText,);    
 };
 
 const handleResetCalculator = (): void => {
@@ -229,7 +205,6 @@ const handleResetCalculator = (): void => {
   }
 };
 
-// Multiple event listeners
 
 buttonsNumber.forEach((buttonNumber) => {
   buttonNumber.addEventListener("click", handleClickedButtonNumberToArray);
@@ -249,12 +224,10 @@ buttonAns.addEventListener("click", () => {
 
 buttonsOperator.forEach((operator) => {
   operator.addEventListener("click", handleStoringOperatorToArray);
-  //operator.addEventListener("click", addingNumbers);
+  
 });
 
 buttonsEqual.addEventListener("click", () => {
-  //addingNumbers(); // Calls two functions, adding numbers first to get
-   // Final answer for postingAnswer()
   turnStringIntoArithmeticEquation();
   returnBracketResultToEquation();
   seperatingArrayIntoNumbersAndOperators();
@@ -271,22 +244,7 @@ screenDay.addEventListener('click', () => {
 
 
 
-// Button clicks when clicking middle
-// Makes the buttons only add the numbers and the rest get ommitted
-// for loop for order of operations, [i] of % -1 + 1
-// Put numbers in array, turn numbers around %/X into numbers and then perform task
-// Alternatively use REGEX
-// - First find numbers in between brackets, then befre '^' (exponential), then before/after
-//   X/%, then before/after +/-
-// - Adds each to an array per category, a
-// Pressing operator turns array so far into one number, and moves to another array
-// Put first number in array, and then stored operator, and then second number
-// - Use if to see what the operator is, and if match, do firstNumb *operator* secondNumb and reset array
-// Create Clear and complete clear
-// If i enter just a operator, gives NAN
-// Entering without an operator should give the number back
-// Add brackets to first array, join them into an array and then turn whats inside into a number BEFORE ANY THING ELSE
-// If screen.answer !== "" do ans
+
 
 
 

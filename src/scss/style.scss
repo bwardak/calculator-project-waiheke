@@ -1,3 +1,6 @@
+@use './variables.scss' as *;
+
+
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900screendisplay=swap");
 
 $screen-font: "Roboto", sans-serif;
@@ -12,8 +15,11 @@ $screen-font: "Roboto", sans-serif;
 
 body {
   height: 100vh;
-  background-color:rgb(133, 132, 132);
+  background-color:$body-color;
   transition: filter 0.6s, background-color 0.6s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 
@@ -21,11 +27,10 @@ body {
   max-width: 280px;
   max-height: 566px;
   width: 100%;
-  margin: 180px auto;
-  border: 2px solid black;
+  border: 2px solid $black-color;
   border-radius: 10px;
-  background-color: rgb(190, 185, 185);
-  box-shadow: 2px 2px 0 2px black;
+  background-color: $calculator-color;
+  box-shadow: 2px 2px 0 2px $black-color;
 
   .screen,
   .button {
@@ -36,7 +41,7 @@ body {
 
 .dark-mode {
   filter: invert(1) hue-rotate(180deg);
-  background-color: rgb(32, 32, 32);
+  background-color: $dark-mode-color;
   transition: filter 0.6s, background-color 0.6s;
 }
 
@@ -47,9 +52,9 @@ body {
 .top-screen {
   display: grid;
   grid-template: repeat(5, 1fr) / repeat(5, 1fr);
-  background-color: white;
+  background-color: $white-color;
   border-radius: 10px;
-  border-bottom: 2px solid black;
+  border-bottom: 2px solid $black-color;
   
 
   &__theme {
@@ -77,7 +82,7 @@ body {
 
 
 .bottom-buttons {
-  background-color: rgb(190, 185, 185);
+  background-color: $calculator-color;
 }
 
 .calc-row {
@@ -89,25 +94,25 @@ body {
 .first-row {
   
   .button {
-    background-color: gray;
+    background-color: $dark-button-color;
   }
 }
 
 .second-row {
   .button:nth-last-child(1) {
-    background-color: gray;
+    background-color: $dark-button-color;
   }
 }
 
 .third-row {
   .button:nth-last-child(1) {
-    background-color: gray;
+    background-color: $dark-button-color;
   }
 }
 
 .fourth-row {
   .button:nth-last-child(1) {
-    background-color: gray;
+    background-color: $dark-button-color;
   }
 }
 
@@ -116,20 +121,20 @@ body {
 .button {
   width: 50px;
   height: 50px;
-  border: 2px solid black;
+  border: 2px solid $black-color;
   border-radius: 15px;
-  background-color: white;
-  box-shadow: 2px 2px 0 2px rgb(117, 117, 117);
+  background-color: $white-color;
+  box-shadow: 2px 2px 0 2px $button-shadow-color;
 }
 
 .button--omit{
   width: 50px;
   height: 50px;
-  border: 2px solid black;
+  border: 2px solid $black-color;
   border-top-width: 1px;
   border-radius: 100%;
   font-size: 1.5rem;
-  background-color: gray;
+  background-color: $dark-button-color;
 }
 
 .button:active {
@@ -169,4 +174,78 @@ body {
 #hide-plus::before {
   content: "-";
   font-size: 1.5rem;
+}
+
+@media screen and (min-width: 768px) {
+  .calculator {
+    max-width: 350px;
+    max-height: 700px;
+    width: 100%;
+    height: 700px;
+
+    .top-screen {
+      .top-screen__theme {
+        .sun,
+        .moon {
+          font-size: 40px;
+        }
+      }
+    }
+    .calc-row {
+      height: 77px;
+
+      .button {
+        height: 70px;
+        width: 70px;
+      }
+
+      .button--omit {
+        height: 70px;
+        width: 70px;
+      }
+    }
+
+    .screen,
+    .button,
+    .button--omit {
+      font-size: 1.7rem;
+    }
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .calculator {
+    max-width: 450px;
+    max-height: 800px;
+    width: 100%;
+    height: 800px;
+
+    .top-screen {
+      .top-screen__theme {
+        .sun,
+        .moon {
+          font-size: 50px;
+        }
+      }
+    }
+    .calc-row {
+      height: 97px;
+
+      .button {
+        height: 90px;
+        width: 90px;
+      }
+
+      .button--omit {
+        height: 90px;
+        width: 90px;
+      }
+    }
+
+    .screen,
+    .button,
+    .button--omit {
+      font-size: 2rem;
+    }
+  }
 }
