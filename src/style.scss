@@ -64,7 +64,7 @@ body {
   }
 
   .screen--answer {
-    grid-area: 3 / 5 / 4 / 6;
+    grid-area: 3 / 1 / 4 / 6;
   }
 
 
@@ -143,6 +143,12 @@ body {
 .top-screen {
 
   .screen--equation {
+    display: flex;
+    flex-direction: row-reverse;
+    margin-right: 21px;
+  }
+
+  .screen--answer {
     display: flex;
     flex-direction: row-reverse;
     margin-right: 21px;
