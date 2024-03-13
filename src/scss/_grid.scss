@@ -1,0 +1,27 @@
+@use './variables' as *;
+
+.top-screen {
+  display: grid;
+  grid-template: repeat(5, 1fr) / repeat(5, 1fr);
+ 
+  &__theme {
+    grid-area: 1 / 2 / 2 / 5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .screen--equation {
+    grid-area: 2 / 1 / 3 / 6;
+  }
+
+  .screen--answer {
+    grid-area: 3 / 1 / 4 / 6;
+  }
+
+
+
+  .button--clear {
+    grid-area: 5 / 5 / 6 / 6;
+  }
+}

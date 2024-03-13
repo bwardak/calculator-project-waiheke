@@ -1,0 +1,41 @@
+@use './variables' as *;
+
+.calc-row {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 10px 0;
+}
+
+.second-row {
+  .button:nth-last-child(1) {
+    background-color: $dark-button-color;
+  }
+}
+
+.third-row {
+  .button:nth-last-child(1) {
+    background-color: $dark-button-color;
+  }
+}
+
+.fourth-row {
+  .button:nth-last-child(1) {
+    background-color: $dark-button-color;
+  }
+}
+
+.top-screen {
+
+  .screen--equation {
+    display: flex;
+    flex-direction: row-reverse;
+    margin-right: 21px;
+  }
+
+  .screen--answer {
+    display: flex;
+    flex-direction: row-reverse;
+    margin-right: 21px;
+  }
+}
+

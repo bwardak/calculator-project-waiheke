@@ -1,17 +1,13 @@
-@use './variables.scss' as *;
-
-
-@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900screendisplay=swap");
-
-$screen-font: "Roboto", sans-serif;
+@use './variables' as *;
+@use './grid' as *;
+@use './components' as *;
+@use './layout' as *;
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-
-
 
 body {
   height: 100vh;
@@ -22,7 +18,6 @@ body {
   align-items: center;
 }
 
-
 .calculator {
   max-width: 280px;
   max-height: 566px;
@@ -31,6 +26,7 @@ body {
   border-radius: 10px;
   background-color: $calculator-color;
   box-shadow: 2px 2px 0 2px $black-color;
+  text-align: center;
 
   .screen,
   .button {
@@ -39,141 +35,14 @@ body {
   }
 }
 
-.dark-mode {
-  filter: invert(1) hue-rotate(180deg);
-  background-color: $dark-mode-color;
-  transition: filter 0.6s, background-color 0.6s;
-}
-
-.calculator {
-  text-align: center;
-}
-
 .top-screen {
-  display: grid;
-  grid-template: repeat(5, 1fr) / repeat(5, 1fr);
   background-color: $white-color;
   border-radius: 10px;
   border-bottom: 2px solid $black-color;
-  
-
-  &__theme {
-    grid-area: 1 / 2 / 2 / 5;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .screen--equation {
-    grid-area: 2 / 1 / 3 / 6;
-  }
-
-  .screen--answer {
-    grid-area: 3 / 1 / 4 / 6;
-  }
-
-
-
-  .button--clear {
-    grid-area: 5 / 5 / 6 / 6;
-  }
 }
-
-
 
 .bottom-buttons {
   background-color: $calculator-color;
-}
-
-.calc-row {
-  display: flex;
-  justify-content: space-evenly;
-  margin: 10px 0;
-}
-
-.first-row {
-  
-  .button {
-    background-color: $dark-button-color;
-  }
-}
-
-.second-row {
-  .button:nth-last-child(1) {
-    background-color: $dark-button-color;
-  }
-}
-
-.third-row {
-  .button:nth-last-child(1) {
-    background-color: $dark-button-color;
-  }
-}
-
-.fourth-row {
-  .button:nth-last-child(1) {
-    background-color: $dark-button-color;
-  }
-}
-
-
-
-.button {
-  width: 50px;
-  height: 50px;
-  border: 2px solid $black-color;
-  border-radius: 15px;
-  background-color: $white-color;
-  box-shadow: 2px 2px 0 2px $button-shadow-color;
-}
-
-.button--omit{
-  width: 50px;
-  height: 50px;
-  border: 2px solid $black-color;
-  border-top-width: 1px;
-  border-radius: 100%;
-  font-size: 1.5rem;
-  background-color: $dark-button-color;
-}
-
-.button:active {
-  transform: scale(0.9);
-}
-
-.button--omit:active {
-  transform: scale(0.9);
-}
-
-.top-screen {
-
-  .screen--equation {
-    display: flex;
-    flex-direction: row-reverse;
-    margin-right: 21px;
-  }
-
-  .screen--answer {
-    display: flex;
-    flex-direction: row-reverse;
-    margin-right: 21px;
-  }
-}
-
-.top-screen__theme {
-  height: 40px;
-  cursor: pointer;
-}
-
-
-
-#hide-plus {
-  font-size: 0;
-}
-
-#hide-plus::before {
-  content: "-";
-  font-size: 1.5rem;
 }
 
 @media screen and (min-width: 768px) {

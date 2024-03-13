@@ -1,0 +1,64 @@
+@use './variables' as *;
+
+.dark-mode {
+  filter: invert(1) hue-rotate(180deg);
+  background-color: $dark-mode-color;
+  transition: filter 0.6s, background-color 0.6s;
+}
+
+.top-screen__theme {
+  height: 40px;
+  cursor: pointer;
+}
+
+
+.button {
+  width: 50px;
+  height: 50px;
+  border: 2px solid $black-color;
+  border-radius: 15px;
+  background-color: $white-color;
+  box-shadow: 2px 2px 0 2px $button-shadow-color;
+}
+
+.button--omit{
+  width: 50px;
+  height: 50px;
+  border: 2px solid $black-color;
+  border-top-width: 1px;
+  border-radius: 100%;
+  font-size: 1.5rem;
+  background-color: $dark-button-color;
+}
+
+.button:active {
+  transform: scale(0.9);
+}
+
+.button--omit:active {
+  transform: scale(0.9);
+}
+
+.button--clear {
+  cursor: pointer;
+}
+
+.button--clear:active {
+  transform: scale(0.9);
+}
+
+.first-row {
+  
+  .button {
+    background-color: $dark-button-color;
+  }
+}
+
+#hide-plus {
+  font-size: 0;
+}
+
+#hide-plus::before {
+  content: "-";
+  font-size: 1.5rem;
+}
